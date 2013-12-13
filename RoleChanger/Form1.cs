@@ -51,6 +51,11 @@ namespace RoleChanger
 
             while (roleReader.Read())
             {
+                if (roleReader["name"].ToString() == "public")
+                {
+                    continue;
+                }
+
                 roleList.Add(roleReader["name"].ToString());
             }
             con.Close();
@@ -81,6 +86,42 @@ namespace RoleChanger
             }
 
             con.Close();
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            var userName = UserList.SelectedItem.ToString();
+            var activeRoles = new List<string>();
+
+            for (var i = 0; i < RolesBox.CheckedItems.Count; i++)
+            {
+                if (RolesBox.CheckedItems[i].ToString() == "public")
+                {
+                    continue;
+                }
+
+                var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+                con.Open();
+                //TODO: Fix to use parameters
+                new SqlCommand(string.Format("EXEC sp_addrolemember '{0}', '{1}'", RolesBox.CheckedItems[i], userName), con).ExecuteNonQuery();
+                activeRoles.Add(RolesBox.CheckedItems[i].ToString());
+                con.Close();
+            }
+
+            for (var i = 0; i < RolesBox.Items.Count; i++)
+            {
+                if (RolesBox.Items[i].ToString() == "public" || activeRoles.Contains(RolesBox.Items[i].ToString()))
+                {
+                    continue;
+                }
+
+                var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+                con.Open();
+                //TODO: Fix to use parameters
+                new SqlCommand(string.Format("EXEC sp_droprolemember '{0}', '{1}'", RolesBox.Items[i], userName), con).ExecuteNonQuery();
+                activeRoles.Add(RolesBox.Items[i].ToString());
+                con.Close();
+            }
         }
     }
 }

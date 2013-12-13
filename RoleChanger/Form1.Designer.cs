@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
             this.UserList = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.RolesBox = new System.Windows.Forms.CheckedListBox();
             this.Save = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
-            this.RolesBox = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,41 +59,6 @@
             this.splitContainer1.SplitterDistance = 211;
             this.splitContainer1.TabIndex = 1;
             // 
-            // UserList
-            // 
-            this.UserList.FormattingEnabled = true;
-            this.UserList.Location = new System.Drawing.Point(12, 47);
-            this.UserList.Name = "UserList";
-            this.UserList.Size = new System.Drawing.Size(195, 21);
-            this.UserList.TabIndex = 0;
-            this.UserList.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // Save
-            // 
-            this.Save.Location = new System.Drawing.Point(546, 657);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(75, 23);
-            this.Save.TabIndex = 2;
-            this.Save.Text = "Save";
-            this.Save.UseVisualStyleBackColor = true;
-            // 
-            // Exit
-            // 
-            this.Exit.Location = new System.Drawing.Point(12, 657);
-            this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(75, 23);
-            this.Exit.TabIndex = 3;
-            this.Exit.Text = "Exit";
-            this.Exit.UseVisualStyleBackColor = true;
-            // 
-            // RolesBox
-            // 
-            this.RolesBox.FormattingEnabled = true;
-            this.RolesBox.Location = new System.Drawing.Point(32, 47);
-            this.RolesBox.Name = "RolesBox";
-            this.RolesBox.Size = new System.Drawing.Size(363, 589);
-            this.RolesBox.TabIndex = 0;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -103,6 +68,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "User";
             // 
+            // UserList
+            // 
+            this.UserList.FormattingEnabled = true;
+            this.UserList.Location = new System.Drawing.Point(12, 47);
+            this.UserList.Name = "UserList";
+            this.UserList.Size = new System.Drawing.Size(195, 21);
+            this.UserList.TabIndex = 0;
+            this.UserList.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -111,6 +85,33 @@
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Roles";
+            // 
+            // RolesBox
+            // 
+            this.RolesBox.FormattingEnabled = true;
+            this.RolesBox.Location = new System.Drawing.Point(32, 47);
+            this.RolesBox.Name = "RolesBox";
+            this.RolesBox.Size = new System.Drawing.Size(363, 589);
+            this.RolesBox.TabIndex = 0;
+            // 
+            // Save
+            // 
+            this.Save.Location = new System.Drawing.Point(546, 657);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(75, 23);
+            this.Save.TabIndex = 2;
+            this.Save.Text = "Save";
+            this.Save.UseVisualStyleBackColor = true;
+            this.Save.Click += new System.EventHandler(this.Save_Click);
+            // 
+            // Exit
+            // 
+            this.Exit.Location = new System.Drawing.Point(12, 657);
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(75, 23);
+            this.Exit.TabIndex = 3;
+            this.Exit.Text = "Exit";
+            this.Exit.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
