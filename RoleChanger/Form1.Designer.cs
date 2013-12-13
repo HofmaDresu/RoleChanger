@@ -112,6 +112,7 @@
             this.Exit.TabIndex = 3;
             this.Exit.Text = "Exit";
             this.Exit.UseVisualStyleBackColor = true;
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
             // Form1
             // 
