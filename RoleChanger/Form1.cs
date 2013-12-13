@@ -14,6 +14,9 @@ namespace RoleChanger
 {
     public partial class Form1 : Form
     {
+        private readonly string _connectionString =
+            System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +32,7 @@ namespace RoleChanger
         private void PopulateUserList()
         {
             var userList = new List<string>();
-            var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+            var con = new SqlConnection(_connectionString);
             con.Open();
             var userReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('U', 'S')", con).ExecuteReader();
 
@@ -45,7 +48,7 @@ namespace RoleChanger
         private void PopulateRoleList()
         {
             var roleList = new List<string>();
-            var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+            var con = new SqlConnection(_connectionString);
             con.Open();
             var roleReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('R')", con).ExecuteReader();
 
@@ -72,7 +75,7 @@ namespace RoleChanger
 
             var userName = UserList.Items[((ComboBox)sender).SelectedIndex];
 
-            var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+            var con = new SqlConnection(_connectionString);
             con.Open();
             //TODO: Fix to use parameters
             var roleReader = new SqlCommand(string.Format("EXEC sp_helpuser '{0}'", userName), con).ExecuteReader();
@@ -93,33 +96,33 @@ namespace RoleChanger
             var userName = UserList.SelectedItem.ToString();
             var activeRoles = new List<string>();
 
-            for (var i = 0; i < RolesBox.CheckedItems.Count; i++)
+            foreach (var t in RolesBox.CheckedItems)
             {
-                if (RolesBox.CheckedItems[i].ToString() == "public")
+                if (t.ToString() == "public")
                 {
                     continue;
                 }
 
-                var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+                var con = new SqlConnection(_connectionString);
                 con.Open();
                 //TODO: Fix to use parameters
-                new SqlCommand(string.Format("EXEC sp_addrolemember '{0}', '{1}'", RolesBox.CheckedItems[i], userName), con).ExecuteNonQuery();
-                activeRoles.Add(RolesBox.CheckedItems[i].ToString());
+                new SqlCommand(string.Format("EXEC sp_addrolemember '{0}', '{1}'", t, userName), con).ExecuteNonQuery();
+                activeRoles.Add(t.ToString());
                 con.Close();
             }
 
-            for (var i = 0; i < RolesBox.Items.Count; i++)
+            foreach (var t in RolesBox.Items)
             {
-                if (RolesBox.Items[i].ToString() == "public" || activeRoles.Contains(RolesBox.Items[i].ToString()))
+                if (t.ToString() == "public" || activeRoles.Contains(t.ToString()))
                 {
                     continue;
                 }
 
-                var con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString);
+                var con = new SqlConnection(_connectionString);
                 con.Open();
                 //TODO: Fix to use parameters
-                new SqlCommand(string.Format("EXEC sp_droprolemember '{0}', '{1}'", RolesBox.Items[i], userName), con).ExecuteNonQuery();
-                activeRoles.Add(RolesBox.Items[i].ToString());
+                new SqlCommand(string.Format("EXEC sp_droprolemember '{0}', '{1}'", t, userName), con).ExecuteNonQuery();
+                activeRoles.Add(t.ToString());
                 con.Close();
             }
         }
