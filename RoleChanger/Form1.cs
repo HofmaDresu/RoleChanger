@@ -9,12 +9,13 @@ using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAccess;
 
 namespace RoleChanger
 {
     public partial class Form1 : Form
     {
-        private readonly DataAccess dataAccess = new DataAccess();
+        private readonly RoleManager roleManager = new RoleManager();
 
         public Form1()
         {
@@ -30,14 +31,14 @@ namespace RoleChanger
 
         private void PopulateUserList()
         {
-            var userList = dataAccess.GetUserList();
+            var userList = roleManager.GetUserList();
 
             UserList.DataSource = userList;
         }
 
         private void PopulateRoleList()
         {
-            var roleList = dataAccess.GetRoleList();
+            var roleList = roleManager.GetRoleList();
 
             RolesBox.DataSource = roleList;
         }
@@ -51,7 +52,7 @@ namespace RoleChanger
 
             var userName = UserList.Items[((ComboBox)sender).SelectedIndex];
 
-            var roleList = dataAccess.GetUserRoles(userName);
+            var roleList = roleManager.GetUserRoles(userName);
 
             for (var i = 0; i < RolesBox.Items.Count; i++ )
             {
@@ -79,7 +80,7 @@ namespace RoleChanger
                     continue;
                 }
 
-                dataAccess.RunRoleSpForUser(roleSp, t, userName);
+                roleManager.RunRoleSpForUser(roleSp, t, userName);
             }
         }
 

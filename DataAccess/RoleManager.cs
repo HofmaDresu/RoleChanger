@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoleChanger
+namespace DataAccess
 {
-    public class DataAccess
+    public class RoleManager
     {
         private readonly string _connectionString =
             System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString;
