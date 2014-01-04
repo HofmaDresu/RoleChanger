@@ -14,8 +14,6 @@ namespace RoleChanger
 {
     public partial class Form1 : Form
     {
-        private readonly string _connectionString =
-            System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString;
         private readonly DataAccess dataAccess = new DataAccess();
 
         public Form1()
@@ -65,18 +63,8 @@ namespace RoleChanger
         private void Save_Click(object sender, EventArgs e)
         {
             var userName = UserList.SelectedItem.ToString();
-            var removeRoleSP = "sp_droprolemember";
-            var addRoleSP = "sp_addrolemember";
-
-            foreach (var t in RolesBox.Items)
-            {
-                if (t.ToString() == "public")
-                {
-                    continue;
-                }
-
-                dataAccess.RunRoleSpForUser(removeRoleSP, t, userName);
-            }
+            const string removeRoleSP = "sp_droprolemember";
+            const string addRoleSP = "sp_addrolemember";
 
             AlterUserRoles(removeRoleSP, userName, RolesBox.Items);
             AlterUserRoles(addRoleSP, userName, RolesBox.CheckedItems);
