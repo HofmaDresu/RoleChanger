@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +16,7 @@ namespace RoleChanger
     {
         private readonly string _connectionString =
             System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString;
+        private readonly DataAccess dataAccess = new DataAccess();
 
         public Form1()
         {
@@ -31,37 +32,14 @@ namespace RoleChanger
 
         private void PopulateUserList()
         {
-            var userList = new List<string>();
-            var con = new SqlConnection(_connectionString);
-            con.Open();
-            var userReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('U', 'S')", con).ExecuteReader();
-
-            while (userReader.Read())
-            {
-                userList.Add(userReader["name"].ToString());
-            }
-            con.Close();
+            var userList = dataAccess.GetUserList();
 
             UserList.DataSource = userList;
         }
 
         private void PopulateRoleList()
         {
-            var roleList = new List<string>();
-            var con = new SqlConnection(_connectionString);
-            con.Open();
-            var roleReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('R')", con).ExecuteReader();
-
-            while (roleReader.Read())
-            {
-                if (roleReader["name"].ToString() == "public")
-                {
-                    continue;
-                }
-
-                roleList.Add(roleReader["name"].ToString());
-            }
-            con.Close();
+            var roleList = dataAccess.GetRoleList();
 
             RolesBox.DataSource = roleList;
         }
@@ -75,55 +53,45 @@ namespace RoleChanger
 
             var userName = UserList.Items[((ComboBox)sender).SelectedIndex];
 
-            var con = new SqlConnection(_connectionString);
-            con.Open();
-            //TODO: Fix to use parameters
-            var roleReader = new SqlCommand(string.Format("EXEC sp_helpuser '{0}'", userName), con).ExecuteReader();
+            var roleList = dataAccess.GetUserRoles(userName);
 
-            while (roleReader.Read())
+            for (var i = 0; i < RolesBox.Items.Count; i++ )
             {
-                for (var i = 0; i < RolesBox.Items.Count; i++ )
-                {
-                    if (RolesBox.Items[i].ToString() == roleReader["RoleName"].ToString()) RolesBox.SetItemChecked(i, true);
-                }
+                if (roleList.Contains(RolesBox.Items[i].ToString())) RolesBox.SetItemChecked(i, true);
             }
 
-            con.Close();
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
             var userName = UserList.SelectedItem.ToString();
-            var activeRoles = new List<string>();
+            var removeRoleSP = "sp_droprolemember";
+            var addRoleSP = "sp_addrolemember";
 
-            foreach (var t in RolesBox.CheckedItems)
+            foreach (var t in RolesBox.Items)
             {
                 if (t.ToString() == "public")
                 {
                     continue;
                 }
 
-                var con = new SqlConnection(_connectionString);
-                con.Open();
-                //TODO: Fix to use parameters
-                new SqlCommand(string.Format("EXEC sp_addrolemember '{0}', '{1}'", t, userName), con).ExecuteNonQuery();
-                activeRoles.Add(t.ToString());
-                con.Close();
+                dataAccess.RunRoleSpForUser(removeRoleSP, t, userName);
             }
 
-            foreach (var t in RolesBox.Items)
+            AlterUserRoles(removeRoleSP, userName, RolesBox.Items);
+            AlterUserRoles(addRoleSP, userName, RolesBox.CheckedItems);
+        }
+
+        private void AlterUserRoles(string roleSp, string userName, IEnumerable checkBoxItems)
+        {
+            foreach (var t in checkBoxItems)
             {
-                if (t.ToString() == "public" || activeRoles.Contains(t.ToString()))
+                if (t.ToString() == "public")
                 {
                     continue;
                 }
 
-                var con = new SqlConnection(_connectionString);
-                con.Open();
-                //TODO: Fix to use parameters
-                new SqlCommand(string.Format("EXEC sp_droprolemember '{0}', '{1}'", t, userName), con).ExecuteNonQuery();
-                activeRoles.Add(t.ToString());
-                con.Close();
+                dataAccess.RunRoleSpForUser(roleSp, t, userName);
             }
         }
 
