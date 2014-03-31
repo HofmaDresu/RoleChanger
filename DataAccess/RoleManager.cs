@@ -19,7 +19,7 @@ namespace DataAccess
             var con = new SqlConnection(_connectionString);
             con.Open();
             var userReader =
-                new SqlCommand("SELECT name FROM sys.database_principals where type in ('U', 'S')", con).ExecuteReader();
+                new SqlCommand("SELECT name FROM sys.database_principals where type in ('U', 'S') order by name", con).ExecuteReader();
 
             while (userReader.Read())
             {
@@ -34,7 +34,7 @@ namespace DataAccess
             var roleList = new List<string>();
             var con = new SqlConnection(_connectionString);
             con.Open();
-            var roleReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('R')", con).ExecuteReader();
+            var roleReader = new SqlCommand("SELECT name FROM sys.database_principals where type in ('R') order by name", con).ExecuteReader();
 
             while (roleReader.Read())
             {
