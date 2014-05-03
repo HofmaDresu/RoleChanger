@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoleChanger", "RoleChanger\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{BA37BEFA-89F4-4C5A-9EC1-73E81F3AA22B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoleManipulator", "RoleManipulator\RoleManipulator.csproj", "{C8CC234E-F273-475A-B3CA-6E478A57C288}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{BA37BEFA-89F4-4C5A-9EC1-73E81F3AA22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA37BEFA-89F4-4C5A-9EC1-73E81F3AA22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA37BEFA-89F4-4C5A-9EC1-73E81F3AA22B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8CC234E-F273-475A-B3CA-6E478A57C288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CC234E-F273-475A-B3CA-6E478A57C288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CC234E-F273-475A-B3CA-6E478A57C288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CC234E-F273-475A-B3CA-6E478A57C288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,12 @@ namespace RoleChanger
     {
         private readonly RoleManager roleManager = new RoleManager();
 
+        class ComboBoxItem
+        {
+            public string Text;
+            public string Value;
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -25,8 +31,27 @@ namespace RoleChanger
 
         private void SetupData()
         {
+            PopulateDBList();
+            SetDbConnString();
             PopulateRoleList();
             PopulateUserList();
+        }
+
+        private void PopulateDBList()
+        {
+            foreach (var key in System.Configuration.ConfigurationManager.AppSettings.AllKeys)
+            {
+                DatabaseComboBox.Items.Add(new { Text = key, Value = System.Configuration.ConfigurationManager.AppSettings[key] });
+            }
+            DatabaseComboBox.DisplayMember = "Text";
+            DatabaseComboBox.ValueMember = "Value";
+            DatabaseComboBox.SelectedIndex = 0;
+        }
+
+        private void SetDbConnString()
+        {
+            roleManager.SetConnectionString(((dynamic)DatabaseComboBox.Items[DatabaseComboBox.SelectedIndex]).Value.ToString());
+            UserList.Enabled = true;
         }
 
         private void PopulateUserList()
@@ -87,6 +112,13 @@ namespace RoleChanger
         private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void DatabaseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetDbConnString();
+            PopulateRoleList();
+            PopulateUserList();
         }
     }
 }

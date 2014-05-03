@@ -35,6 +35,8 @@
             this.RolesBox = new System.Windows.Forms.CheckedListBox();
             this.Save = new System.Windows.Forms.Button();
             this.Exit = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.DatabaseComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -48,6 +50,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.DatabaseComboBox);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.UserList);
             // 
@@ -62,7 +66,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(13, 79);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 1;
@@ -70,8 +74,9 @@
             // 
             // UserList
             // 
+            this.UserList.Enabled = false;
             this.UserList.FormattingEnabled = true;
-            this.UserList.Location = new System.Drawing.Point(12, 47);
+            this.UserList.Location = new System.Drawing.Point(12, 106);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(195, 21);
             this.UserList.TabIndex = 0;
@@ -114,6 +119,24 @@
             this.Exit.UseVisualStyleBackColor = true;
             this.Exit.Click += new System.EventHandler(this.Exit_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Database";
+            // 
+            // DatabaseComboBox
+            // 
+            this.DatabaseComboBox.FormattingEnabled = true;
+            this.DatabaseComboBox.Location = new System.Drawing.Point(13, 47);
+            this.DatabaseComboBox.Name = "DatabaseComboBox";
+            this.DatabaseComboBox.Size = new System.Drawing.Size(194, 21);
+            this.DatabaseComboBox.TabIndex = 3;
+            this.DatabaseComboBox.SelectedIndexChanged += new System.EventHandler(this.DatabaseComboBox_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,6 +166,8 @@
         private System.Windows.Forms.CheckedListBox RolesBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox DatabaseComboBox;
+        private System.Windows.Forms.Label label3;
     }
 }
 

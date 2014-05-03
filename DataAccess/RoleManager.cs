@@ -9,8 +9,12 @@ namespace DataAccess
 {
     public class RoleManager
     {
-        private readonly string _connectionString =
-            System.Configuration.ConfigurationManager.ConnectionStrings["TargetDatabase"].ConnectionString;
+        private string _connectionString = string.Empty;
+
+        public void SetConnectionString(string newConnectionString)
+        {
+            _connectionString = newConnectionString;
+        }
 
 
         public List<string> GetUserList()
